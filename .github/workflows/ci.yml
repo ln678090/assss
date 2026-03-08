@@ -1,0 +1,27 @@
+name: Java CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      CHROME_OPTIONS: "--headless --no-sandbox --disable-dev-shm-usage env CI ChromeOptions "
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build and Test with Gradle
+        run: ./gradlew build
